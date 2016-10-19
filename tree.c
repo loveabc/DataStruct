@@ -8,6 +8,66 @@ struct TreeNode{
 	SearchTree left;
 	SearchTree right;
 }; 
+
+typedef struct Queue *Q;
+struct Queue{
+	SearchTree element;//队列的元素 
+	Q front;//队头 
+	Q rear;//队尾 
+	Q next;//下一个元素 
+};
+
+//创建空队
+Q MakeEmptyQ(){
+	return NULL;
+} 
+//入队 
+Q EnQ(Q qt,SearchTree T){
+	Q newQ;
+	if(qt==NULL){
+		qt=(Q)malloc(sizeof(Q));
+		qt->element=T;
+		qt->front=qt->rear=qt;
+		qt->next=NULL;
+		return qt;
+	}
+	newQ=(Q)malloc(sizeof(Q));
+	newQ->element=T;
+	qt->rear->next=newQ;
+	qt->rear=newQ;
+	return qt;
+}
+//出队
+Q OutQ(Q qt){
+	Q oq;
+	if(qt==NULL){
+		return;
+	} 
+	oq=qt->front;
+	qt->front=oq->next;
+	return oq;
+} 
+//层序遍历
+void FindFloor(Q qt,SearchTree T){
+	Q oq;
+	if(T==NULL){
+		return;
+	}
+	qt=EnQ(qt,T);
+	
+	while(qt!=NULL){
+		oq=OutQ(qt);
+		printf("%d\n",oq->element->element);
+		if(qt->element->left!=NULL){
+			EnQ(qt,qt->element->left);
+		}
+		if(qt->element->right!=NULL){
+			EnQ(qt,qt->element->right);
+		}
+	}
+	
+	
+} 
 //创建空二叉树
 SearchTree MakeEmpty(SearchTree T){
 	if(T!=NULL){
@@ -30,7 +90,6 @@ SearchTree Insert(ElementType X,SearchTree T){
 		}
 	}else{
 		if(X<T->element){
-			//如果T->left不是空,返回T->left,否则的话返回新创建的节点
 			T->left=Insert(X,T->left);
 		}else{
 			T->right=Insert(X,T->right);
@@ -130,10 +189,45 @@ SearchTree DeleteElement(ElementType X,SearchTree T){
 	}
 	return T;
 } 
+//第K层节点的个数 
+int NodesInKFloor(SearchTree T,int k){
+	if(T==NULL||k<1){
+		return 0;
+	}
+	if(k==1){
+		return 1;
+	}
+    //左子树节点与右子树节点之和 
+	return NodesInKFloor(T->left,k-1)+NodesInKFloor(T->right,k-1);
+} 
+//叶子节点的个数
+int NodesInLeaf(SearchTree T) {
+	if(T==NULL){
+		return 0;
+	}
+	if(T->left==NULL&&T->right==NULL){
+		return 1;
+	}
+	return NodesInLeaf(T->left)+NodesInLeaf(T->right);
+}
+//判断两棵二叉树是否同构
+int IsSame(SearchTree T1,SearchTree T2){
+	if(T1==NULL&&T2==NULL){
+		//同构
+		return 1; 
+	}
+	if((T1==NULL&&T2!=NULL)||(T1!=NULL&&T2==NULL)){
+		//不同构
+		return 0; 
+	}
+	return IsSame(T1->left,T2->left)*IsSame(T1->right,T2->right);
+}
 
 int main(){
 	int i;
+	int nodes;
 	SearchTree minElement,maxElement,ElementTree;//最小值,最大值 
+	Q qt;
 	int nums[]={6,2,8,1,4,3};
 	
 	//创建一颗空树
@@ -186,10 +280,16 @@ int main(){
 	}else{
 		printf("%s\n","没有找到值");
 	}
-	ElementTree=DeleteElement(6,T);
-	if(ElementTree!=NULL){
-		FindFirst(T);
-		printf("\n");
-	}
+//	ElementTree=DeleteElement(6,T);
+//	if(ElementTree!=NULL){
+//		FindFirst(T);
+//		printf("\n");
+//	}
+	nodes=NodesInKFloor(T,500);
+	printf("%d\n",nodes);
+	nodes=NodesInLeaf(T);
+	printf("%d\n",nodes);
+   	qt=MakeEmptyQ();
+   	FindFloor(qt,T);
 	return 0;
 }
