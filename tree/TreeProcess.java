@@ -1,5 +1,9 @@
 package com.imooc.tree;
 
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
 /*
  * 二叉树的操作
  */
@@ -29,6 +33,8 @@ public class TreeProcess {
 		this.inOrder(node1);
 		System.out.println();
 		this.afterOrder(node1);
+		System.out.println();
+		this.ListOrder(node1);
 	}
 
 	// 先序遍历
@@ -63,8 +69,45 @@ public class TreeProcess {
 		this.afterOrder(node.getRight());
 		System.out.print(node.getValue()+"  ");
 	}
+	//层序遍历
+	public void ListOrder(TreeNode node){
+		if(node==null){
+			return;
+		}
+		Queue<TreeNode> queue=new LinkedList<TreeNode>();
+		queue.add(node);
+		while(!queue.isEmpty()){
+			TreeNode currentNode=queue.poll();
+			TreeNode leftNode=currentNode.getLeft();
+			TreeNode rightNode=currentNode.getRight();
+			if(leftNode!=null){
+				queue.add(leftNode);
+			}
+			if(rightNode!=null){
+				queue.add(rightNode);
+			}
+			System.out.print(currentNode.getValue()+"  ");
+		}
+	}
 	public static void main(String[] args) {
 		TreeProcess tree=new TreeProcess();
 		tree.createTree();
+//		Queue<String> queue=new LinkedList<String>();
+//		System.out.println(queue.isEmpty());
+//		queue.add("1");
+//		queue.add("2");
+//		queue.add("3");
+//		int size=queue.size();
+//		for(int i=0;i<size;i++){
+//			System.out.println(queue.poll());
+//		}
+//		Stack<String> stack=new Stack<String>();
+//		stack.add("1");
+//		stack.add("2");
+//		stack.add("3");
+//		size=stack.size();
+//		for(int i=0;i<size;i++){
+//			System.out.println(stack.pop());
+//		}
 	}
 }
