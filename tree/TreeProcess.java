@@ -2,7 +2,7 @@ package com.imooc.tree;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Stack;
+import java.util.Random;
 
 /*
  * 二叉树的操作
@@ -35,6 +35,11 @@ public class TreeProcess {
 		this.afterOrder(node1);
 		System.out.println();
 		this.ListOrder(node1);
+		System.out.println();
+		this.getLeaf(node1);
+		System.out.println();
+		int height=this.getLeafHeight(node1);
+		System.out.println(height);
 	}
 
 	// 先序遍历
@@ -89,25 +94,28 @@ public class TreeProcess {
 			System.out.print(currentNode.getValue()+"  ");
 		}
 	}
+	//遍历所有的叶子节点
+	public void getLeaf(TreeNode node){
+		if(node==null){
+			return;
+		}
+		if(node.getLeft()==null&&node.getRight()==null){
+			System.out.print(node.getValue()+"  ");
+		}
+		this.getLeaf(node.getLeft());
+		this.getLeaf(node.getRight());
+	}
+	//求树的高度
+	public int getLeafHeight(TreeNode node){
+		if(node==null){
+			return 0;
+		}
+		int leftHeight=this.getLeafHeight(node.getLeft());
+		int rightHeight=this.getLeafHeight(node.getRight());
+		return Math.max(leftHeight, rightHeight)+1;
+	}
 	public static void main(String[] args) {
 		TreeProcess tree=new TreeProcess();
 		tree.createTree();
-//		Queue<String> queue=new LinkedList<String>();
-//		System.out.println(queue.isEmpty());
-//		queue.add("1");
-//		queue.add("2");
-//		queue.add("3");
-//		int size=queue.size();
-//		for(int i=0;i<size;i++){
-//			System.out.println(queue.poll());
-//		}
-//		Stack<String> stack=new Stack<String>();
-//		stack.add("1");
-//		stack.add("2");
-//		stack.add("3");
-//		size=stack.size();
-//		for(int i=0;i<size;i++){
-//			System.out.println(stack.pop());
-//		}
 	}
 }
