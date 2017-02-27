@@ -106,12 +106,12 @@ public class TreeProcess {
 		this.getLeaf(node.getRight());
 	}
 	//求树的高度
-	public int getLeafHeight(TreeNode node){
+	public int getTreeHeight(TreeNode node){
 		if(node==null){
 			return 0;
 		}
-		int leftHeight=this.getLeafHeight(node.getLeft());
-		int rightHeight=this.getLeafHeight(node.getRight());
+		int leftHeight=this.getTreeHeight(node.getLeft());
+		int rightHeight=this.getTreeHeight(node.getRight());
 		return Math.max(leftHeight, rightHeight)+1;
 	}
 	public static void main(String[] args) {
