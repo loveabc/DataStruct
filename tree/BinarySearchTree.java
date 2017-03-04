@@ -11,7 +11,7 @@ public class BinarySearchTree {
 	}
 
 	// 添加节点
-	//返回值是根节点
+	//返回值,添加节点之后的二叉搜索树	
 	public TreeNode addNode(TreeNode tree, Integer number) {
 		if (tree == null || tree.getValue() == null) {
 			return new TreeNode(number);
@@ -49,7 +49,7 @@ public class BinarySearchTree {
 	}
 
 	// 删除节点
-	//返回值是根节点
+	//返回值,删除指点节点之后的二叉搜索树
 	public TreeNode deleteNode(TreeNode tree, Integer number) {
 		if (tree == null || tree.getValue() == null) {
 			return null;
