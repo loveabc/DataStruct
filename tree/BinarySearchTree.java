@@ -115,6 +115,6 @@ public class BinarySearchTree {
 		tp.inOrder(tree);
 		TreeNode node=btree.deleteNode(tree, 20);
 		System.out.println(node.getValue());
-		tp.inOrder(tree);
+		tp.inOrder(tree); 
 	}
 }
